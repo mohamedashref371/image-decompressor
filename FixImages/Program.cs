@@ -9,9 +9,6 @@ namespace FixImages
 {
     internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -19,9 +16,7 @@ namespace FixImages
             Application.SetCompatibleTextRenderingDefault(false);
 
             string[] files;
-            string saveFolder;
-            string str;
-            MemoryStream ms = new MemoryStream();
+            string saveFolder, str;
             Bitmap bmp;
             FolderBrowserDialog dialog = new FolderBrowserDialog
             {
@@ -40,6 +35,11 @@ namespace FixImages
                         bmp = new Bitmap(files[i]);
                         str = Path.Combine(saveFolder, Path.GetFileName(files[i]));
                         bmp.Save(str, System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                    else if (string.Equals(Path.GetExtension(files[i]), ".ico", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // soon
+
                     }
                 }
             }
