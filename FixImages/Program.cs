@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FixImages
@@ -21,6 +20,9 @@ namespace FixImages
 
             string[] files;
             string saveFolder;
+            string str;
+            MemoryStream ms = new MemoryStream();
+            Bitmap bmp;
             FolderBrowserDialog dialog = new FolderBrowserDialog
             {
                 ShowNewFolderButton = false,
@@ -29,17 +31,15 @@ namespace FixImages
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 files = Directory.GetFiles(dialog.SelectedPath);
-                saveFolder = Path.Combine(dialog.SelectedPath, "OutputImages-" + DateTime.Now.Ticks.ToString());
+                saveFolder = Path.Combine(dialog.SelectedPath, "OutputPNGImages-" + DateTime.Now.Ticks.ToString());
                 Directory.CreateDirectory(saveFolder);
                 for (int i = 0; i < files.Length; i++)
                 {
                     if (string.Equals(Path.GetExtension(files[i]), ".png", StringComparison.OrdinalIgnoreCase))
                     {
-                        new Bitmap(files[i]).Save(Path.Combine(saveFolder, Path.GetFileName(files[i])), System.Drawing.Imaging.ImageFormat.Png);
-                    }
-                    else if (string.Equals(Path.GetExtension(files[i]), ".ico", StringComparison.OrdinalIgnoreCase))
-                    {
-                        new Bitmap(files[i]).Save(Path.Combine(saveFolder, Path.GetFileName(files[i])), System.Drawing.Imaging.ImageFormat.Icon);
+                        bmp = new Bitmap(files[i]);
+                        str = Path.Combine(saveFolder, Path.GetFileName(files[i]));
+                        bmp.Save(str, System.Drawing.Imaging.ImageFormat.Png);
                     }
                 }
             }
